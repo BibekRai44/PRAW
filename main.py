@@ -1,5 +1,5 @@
 import praw
-from datetime import datetime,timezone
+from datetime import datetime,timezone,timedelta
 
 client_id='7x63b4H0_0d2W5DKK61TSA'
 client_secret='NFoNppi9lNNZZgGuyiZpdvpVAc5_5A'
@@ -7,8 +7,10 @@ user_agent="Scraper 1.0 by u/Bibek44 "
 
 subreddit_name='Nepal'
 
-start_date = datetime(2023, 3, 17, 0, 0, 0, tzinfo=timezone.utc)
-end_date = datetime(2023, 3, 18, 0, 0, 0, tzinfo=timezone.utc)
+current_time = datetime.now(timezone.utc)
+start_date = datetime(current_time.year, current_time.month, current_time.day, tzinfo=timezone.utc)
+end_date = start_date + timedelta(days=1)
+
 
 user_agent="Scraper 1.0 by u/Bibek44 "
 
@@ -18,7 +20,7 @@ def top_post_stats(subreddit_name, time_filter):
                         user_agent=user_agent)
 
     top_by_upvotes = None
-    for submission in reddit.subreddit(subreddit_name).top(limit=1):
+    for submission in reddit.subreddit(subreddit_name).top(time_filter='day',limit=1):
         if submission.score > 0:
             top_by_upvotes = submission
             break
@@ -29,12 +31,12 @@ def top_post_stats(subreddit_name, time_filter):
         print('No posts found that meet the search criteria.')
 
     top_by_comments = None
-    for submission in reddit.subreddit(subreddit_name).top(time_filter='day', limit=1):
+    for submission in reddit.subreddit(subreddit_name).search(query='',time_filter='day', limit=1):
         if submission.num_comments > 0:
             top_by_comments = submission
             break
 
-    if top_by_upvotes is not None:
+    if top_by_comments is not None:
         print('Top post by comments: "{}" with {} comments ({})'.format(top_by_comments.title, top_by_comments.num_comments,top_by_comments.permalink))
     else:
         print('No posts found that meet the search criteria.')
