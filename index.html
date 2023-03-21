@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Top Post of the Day</title>
+</head>
+<body>
+    <h1>Top Post of the Day</h1>
+    {% if top_post %}
+    <p>{{ top_post.title }}</p>
+    <p>{{ top_post.score }}</p>
+    {% else %}
+    <p>No top post found for today.</p>
+    {% endif %}
+</body>
+</html>
