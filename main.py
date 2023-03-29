@@ -31,7 +31,7 @@ def top_post_stats(subreddit_name, time_filter):
         print('No posts found that meet the search criteria.')
 
     top_by_comments = None
-    for submission in reddit.subreddit(subreddit_name).search(query='',time_filter='day', limit=1):
+    for submission in reddit.subreddit(subreddit_name).search(query='flair:"Question/प्रश्न"',time_filter='day', limit=1):
         if submission.num_comments > 0:
             top_by_comments = submission
             break
